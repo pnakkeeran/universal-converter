@@ -140,7 +140,10 @@ function setupEventListeners() {
     });
     
     // Swap currencies
-    swapBtn.addEventListener('click', swapCurrencies);
+    const swapBtn = document.getElementById('swap-currencies');
+    if (swapBtn) {
+        swapBtn.addEventListener('click', swapCurrencies);
+    }
     
     // Mobile menu toggle
     menuToggle.addEventListener('click', toggleMobileMenu);
@@ -414,6 +417,14 @@ async function fetchExchangeRates() {
             }
         }
     }
+}
+
+// Swap currency values
+function swapCurrencies() {
+    const temp = fromCurrency.value;
+    fromCurrency.value = toCurrency.value;
+    toCurrency.value = temp;
+    convertCurrency();
 }
 
 // Initialize the app when the DOM is fully loaded

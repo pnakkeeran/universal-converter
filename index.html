@@ -303,6 +303,20 @@
     </div>
 
     <!-- Main JavaScript -->
+    <script>
+        // Initialize converters when the DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize the main app
+            if (typeof init === 'function') {
+                init();
+            }
+            
+            // Initialize converters
+            if (typeof initializeConverters === 'function') {
+                initializeConverters();
+            }
+        });
+    </script>
     <script src="js/converters.js"></script>
     <script src="js/app.js"></script>
 </body>
