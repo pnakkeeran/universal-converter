@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online unit and currency converter. Convert between currencies, measurements, time zones, and more with our easy-to-use tool.">
+    <title>Universal Converter | Free Online Unit & Currency Conversion Tool</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Universal Converter",
+      "description": "Free online unit and currency conversion tool. Convert between currencies, measurements, time zones, and more.",
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-exchange-alt"></i>
+                <h1>Universal Converter</h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#currency" class="active" data-tab="currency">Currency</a></li>
+                    <li><a href="#length" data-tab="length">Length</a></li>
+                    <li><a href="#weight" data-tab="weight">Weight</a></li>
+                    <li><a href="#temperature" data-tab="temperature">Temp</a></li>
+                    <li><a href="#time" data-tab="time">Time</a></li>
+                    <li><a href="#more" data-tab="more">More <i class="fas fa-chevron-down"></i></a></li>
+                </ul>
+            </nav>
+            <button class="mobile-menu-btn" aria-label="Toggle menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="converter-card">
+                <!-- Currency Converter -->
+                <div id="currency" class="converter-section active">
+                    <h2><i class="fas fa-money-bill-wave"></i> Currency Converter</h2>
+                    <div class="converter-form">
+                        <div class="input-group">
+                            <input type="number" id="amount" placeholder="1.00" step="0.01" min="0">
+                            <select id="from-currency">
+                                <option value="USD">US Dollar (USD)</option>
+                                <option value="EUR">Euro (EUR)</option>
+                                <option value="GBP">British Pound (GBP)</option>
+                                <option value="JPY">Japanese Yen (JPY)</option>
+                                <option value="CAD">Canadian Dollar (CAD)</option>
+                                <option value="AUD">Australian Dollar (AUD)</option>
+                                <option value="CNY">Chinese Yuan (CNY)</option>
+                                <option value="INR">Indian Rupee (INR)</option>
+                            </select>
+                        </div>
+                        <button id="swap-currencies" class="swap-btn" aria-label="Swap currencies">
+                            <i class="fas fa-exchange-alt"></i>
+                        </button>
+                        <div class="input-group">
+                            <input type="text" id="result" placeholder="0.00" readonly>
+                            <select id="to-currency">
+                                <option value="EUR">Euro (EUR)</option>
+                                <option value="USD">US Dollar (USD)</option>
+                                <option value="GBP">British Pound (GBP)</option>
+                                <option value="JPY">Japanese Yen (JPY)</option>
+                                <option value="CAD">Canadian Dollar (CAD)</option>
+                                <option value="AUD">Australian Dollar (AUD)</option>
+                                <option value="CNY">Chinese Yuan (CNY)</option>
+                                <option value="INR">Indian Rupee (INR)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="conversion-rate" id="conversion-rate">
+                        1 USD = 0.85 EUR
+                    </div>
+                    <div class="last-updated">
+                        <small>Rates last updated: <span id="last-updated">Just now</span></small>
+                    </div>
+                </div>
+
+                <!-- Length Converter -->
+                <div id="length" class="converter-section">
+                    <h2><i class="fas fa-ruler-combined"></i> Length Converter</h2>
+                    <div class="converter-form">
+                        <div class="input-group">
+                            <input type="number" id="length-value" placeholder="1.00" step="0.01" min="0">
+                            <select id="from-length">
+                                <option value="m">Meters (m)</option>
+                                <option value="km">Kilometers (km)</option>
+                                <option value="cm">Centimeters (cm)</option>
+                                <option value="mm">Millimeters (mm)</option>
+                                <option value="in">Inches (in)</option>
+                                <option value="ft">Feet (ft)</option>
+                                <option value="yd">Yards (yd)</option>
+                                <option value="mi">Miles (mi)</option>
+                            </select>
+                        </div>
+                        <button id="swap-length" class="swap-btn" aria-label="Swap units">
+                            <i class="fas fa-exchange-alt"></i>
+                        </button>
+                        <div class="input-group">
+                            <input type="text" id="length-result" placeholder="0.00" readonly>
+                            <select id="to-length">
+                                <option value="ft">Feet (ft)</option>
+                                <option value="m">Meters (m)</option>
+                                <option value="km">Kilometers (km)</option>
+                                <option value="cm">Centimeters (cm)</option>
+                                <option value="mm">Millimeters (mm)</option>
+                                <option value="in">Inches (in)</option>
+                                <option value="yd">Yards (yd)</option>
+                                <option value="mi">Miles (mi)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Weight Converter -->
+                <div id="weight" class="converter-section">
+                    <h2><i class="fas fa-weight"></i> Weight Converter</h2>
+                    <div class="converter-form">
+                        <div class="input-group">
+                            <input type="number" id="weight-value" placeholder="1.00" step="0.01" min="0">
+                            <select id="from-weight">
+                                <option value="kg">Kilograms (kg)</option>
+                                <option value="g">Grams (g)</option>
+                                <option value="mg">Milligrams (mg)</option>
+                                <option value="lb">Pounds (lb)</option>
+                                <option value="oz">Ounces (oz)</option>
+                                <option value="st">Stone (st)</option>
+                            </select>
+                        </div>
+                        <button id="swap-weight" class="swap-btn" aria-label="Swap units">
+                            <i class="fas fa-exchange-alt"></i>
+                        </button>
+                        <div class="input-group">
+                            <input type="text" id="weight-result" placeholder="0.00" readonly>
+                            <select id="to-weight">
+                                <option value="lb">Pounds (lb)</option>
+                                <option value="kg">Kilograms (kg)</option>
+                                <option value="g">Grams (g)</option>
+                                <option value="mg">Milligrams (mg)</option>
+                                <option value="oz">Ounces (oz)</option>
+                                <option value="st">Stone (st)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Temperature Converter -->
+                <div id="temperature" class="converter-section">
+                    <h2><i class="fas fa-thermometer-half"></i> Temperature Converter</h2>
+                    <div class="converter-form">
+                        <div class="input-group">
+                            <input type="number" id="temp-value" placeholder="0.00" step="0.01">
+                            <select id="from-temp">
+                                <option value="c">Celsius (°C)</option>
+                                <option value="f">Fahrenheit (°F)</option>
+                                <option value="k">Kelvin (K)</option>
+                            </select>
+                        </div>
+                        <div class="equals-sign">=</div>
+                        <div class="input-group">
+                            <input type="text" id="temp-result" placeholder="0.00" readonly>
+                            <select id="to-temp">
+                                <option value="f">Fahrenheit (°F)</option>
+                                <option value="c">Celsius (°C)</option>
+                                <option value="k">Kelvin (K)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Time Zone Converter -->
+                <div id="time" class="converter-section">
+                    <h2><i class="far fa-clock"></i> Time Zone Converter</h2>
+                    <div class="time-converter">
+                        <div class="time-input-group">
+                            <input type="datetime-local" id="datetime-input" value="">
+                            <select id="from-timezone">
+                                <option value="UTC">UTC</option>
+                                <option value="America/New_York">New York (EDT/EST)</option>
+                                <option value="America/Chicago">Chicago (CDT/CST)</option>
+                                <option value="America/Denver">Denver (MDT/MST)</option>
+                                <option value="America/Los_Angeles">Los Angeles (PDT/PST)</option>
+                                <option value="Europe/London">London (GMT/BST)</option>
+                                <option value="Europe/Paris">Paris (CET/CEST)</option>
+                                <option value="Asia/Tokyo">Tokyo (JST)</option>
+                                <option value="Australia/Sydney">Sydney (AEDT/AEST)</option>
+                            </select>
+                        </div>
+                        <div class="time-result">
+                            <div id="time-result" class="time-display">--:-- --</div>
+                            <select id="to-timezone">
+                                <option value="UTC">UTC</option>
+                                <option value="America/Los_Angeles">Los Angeles (PDT/PST)</option>
+                                <option value="America/New_York">New York (EDT/EST)</option>
+                                <option value="America/Chicago">Chicago (CDT/CST)</option>
+                                <option value="America/Denver">Denver (MDT/MST)</option>
+                                <option value="Europe/London">London (GMT/BST)</option>
+                                <option value="Europe/Paris">Paris (CET/CEST)</option>
+                                <option value="Asia/Tokyo">Tokyo (JST)</option>
+                                <option value="Australia/Sydney">Sydney (AEDT/AEST)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+
+            <div class="info-section">
+                <div class="info-card">
+                    <i class="fas fa-bolt"></i>
+                    <h3>Fast & Accurate</h3>
+                    <p>Get instant, reliable conversions with our up-to-date rates and measurements.</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h3>Mobile-Friendly</h3>
+                    <p>Works perfectly on all devices, from smartphones to desktops.</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-lock"></i>
+                    <h3>Secure & Private</h3>
+                    <p>Your data never leaves your browser. No tracking, no ads.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Popular Conversions</h4>
+                    <ul>
+                        <li><a href="#">USD to EUR</a></li>
+                        <li><a href="#">Miles to Kilometers</a></li>
+                        <li><a href="#">Pounds to Kilograms</a></li>
+                        <li><a href="#">Fahrenheit to Celsius</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">API Access</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect With Us</h4>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Universal Converter. All rights reserved.</p>
+                <p>Made with <i class="fas fa-heart" style="color: #e74c3c;"></i> for the world</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Ad Space (Sample) -->
+    <div class="ad-container">
+        <div class="container">
+            <div class="ad-space">
+                <!-- AdSense or other ad code will go here -->
+                <div class="ad-placeholder">Advertisement</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main JavaScript -->
+    <script src="js/converters.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
