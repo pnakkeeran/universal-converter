@@ -3,24 +3,26 @@ const amountInput = document.getElementById('amount');
 const fromCurrency = document.getElementById('from-currency');
 const toCurrency = document.getElementById('to-currency');
 const resultInput = document.getElementById('result');
+const conversionRate = document.getElementById('conversion-rate');
+const lastUpdated = document.getElementById('last-updated');
 const swapBtn = document.getElementById('swap-currencies');
-const conversionRateEl = document.getElementById('conversion-rate');
-const lastUpdatedEl = document.getElementById('last-updated');
+const menuToggle = document.querySelector('.mobile-menu-btn');
+const nav = document.querySelector('nav');
 const tabButtons = document.querySelectorAll('.tab-button');
 const converterSections = document.querySelectorAll('.converter-section');
-const menuToggle = document.querySelector('.menu-toggle');
-const nav = document.querySelector('nav');
 
-// Exchange rates (will be fetched from API)
+// Exchange rates and cache
 let exchangeRates = {
     USD: 1,
-    EUR: 0.92,
-    GBP: 0.79,
-    JPY: 151.54,
-    CAD: 1.36,
-    AUD: 1.51,
-    CNY: 7.23,
-    INR: 83.31
+    EUR: 0.85,
+    GBP: 0.72,
+    JPY: 110.15,
+    AUD: 1.30,
+    CAD: 1.25,
+    CHF: 0.92,
+    CNY: 6.45,
+    HKD: 7.77,
+    NZD: 1.40
 };
 
 // API Configuration
@@ -88,55 +90,68 @@ const CACHE_DURATION = 30 * 60 * 1000; // 30 minutes in milliseconds
 
 // Initialize the application
 async function init() {
-    // First, try to initialize the API key
+    // Initialize API key
     await initializeApiKey();
+    
+    // Get all tab buttons and converter sections
+    const tabButtons = document.querySelectorAll('.main-nav a[data-tab]');
+    const converterSections = document.querySelectorAll('.converter-section');
+    
+    // Store them in window object for global access
+    window.tabButtons = tabButtons;
+    window.converterSections = converterSections;
     
     // Set up event listeners
     setupEventListeners();
     
-    // Set default values
-    updateConversionRate();
-    updateLastUpdated();
-    
-    // Initialize all converters
-    if (window.initializeConverters) {
-        window.initializeConverters();
-    }
-    
-    // Fetch rates from API
+    // Initial fetch of exchange rates
     fetchExchangeRates();
     
-    // Set up periodic refresh (every 30 minutes)
-    setInterval(fetchExchangeRates, CACHE_DURATION);
+    // Set up periodic refresh of exchange rates (every 5 minutes)
+    setInterval(fetchExchangeRates, 5 * 60 * 1000);
     
-    // Update the current time every second for time zone converter
-    setInterval(() => {
-        const timeConverters = document.querySelectorAll('.converter-section');
-        timeConverters.forEach(section => {
-            if (section.id === 'time' && section.classList.contains('active')) {
-                const event = new Event('input', { bubbles: true });
-                const datetimeInput = document.getElementById('datetime-input');
-                if (datetimeInput) {
-                    datetimeInput.dispatchEvent(event);
-                }
-            }
-        });
+    // Initialize with current date and time
+    const now = new Date();
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const localDateTime = now.toISOString().slice(0, 16);
+    
+    // Set initial tab based on URL hash or default to 'currency'
+    const initialTab = window.location.hash ? window.location.hash.substring(1) : 'currency';
+    switchTab(initialTab);
+    
+    // Set up a small delay to ensure all elements are loaded
+    setTimeout(() => {
+        const datetimeInput = document.getElementById('datetime-input');
+        if (datetimeInput) {
+            datetimeInput.value = localDateTime;
+            // Trigger input event to update the display
+            const event = new Event('input', {
+                bubbles: true,
+                cancelable: true,
+            });
+            datetimeInput.dispatchEvent(event);
+        }
     }, 1000);
 }
 
 // Set up event listeners
 function setupEventListeners() {
-    // Tab switching
-    tabButtons.forEach(button => {
+    // Tab switching - add click handlers to all tab buttons
+    window.tabButtons.forEach(button => {
         button.addEventListener('click', (e) => {
+            e.preventDefault();
             const tabId = button.getAttribute('data-tab');
-            switchTab(tabId, e);
+            if (tabId) {
+                switchTab(tabId, e);
+            }
         });
     });
     
     // Currency conversion
     [amountInput, fromCurrency, toCurrency].forEach(element => {
-        element.addEventListener('input', convertCurrency);
+        if (element) {
+            element.addEventListener('input', convertCurrency);
+        }
     });
     
     // Swap currencies
@@ -212,12 +227,12 @@ function switchTab(tabId, event) {
     }
     
     // Hide all sections
-    converterSections.forEach(section => {
+    window.converterSections.forEach(section => {
         section.classList.remove('active');
     });
     
     // Deactivate all tab buttons
-    tabButtons.forEach(button => {
+    window.tabButtons.forEach(button => {
         button.classList.remove('active');
     });
     
@@ -233,7 +248,7 @@ function switchTab(tabId, event) {
     }
     
     // Activate the clicked tab button
-    const activeButton = document.querySelector(`.tab-button[data-tab="${tabId}"]`);
+    const activeButton = document.querySelector(`.main-nav a[data-tab="${tabId}"]`);
     if (activeButton) {
         activeButton.classList.add('active');
         
@@ -243,8 +258,12 @@ function switchTab(tabId, event) {
     }
     
     // Close mobile menu if open
-    nav.classList.remove('active');
-    menuToggle.setAttribute('aria-expanded', 'false');
+    const nav = document.querySelector('nav.main-nav');
+    const menuToggle = document.querySelector('.mobile-menu-btn');
+    if (nav && menuToggle) {
+        nav.classList.remove('active');
+        menuToggle.setAttribute('aria-expanded', 'false');
+    }
     
     // Trigger a resize event to fix any layout issues
     window.dispatchEvent(new Event('resize'));
