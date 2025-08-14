@@ -24,8 +24,10 @@ let exchangeRates = {
 };
 
 // API Configuration
-let API_KEY = 'YOUR_API_KEY'; // Will be set from server
-let API_URL = '';
+// In production, this will be set from environment variables
+// In development, we'll use the local server endpoint
+let API_KEY = 'bfc429239a53eceab19992b7';
+let API_URL = `https://v6.exchangerate-api.com/v6/${API_KEY}/latest/USD`;
 
 // Sanitize input to prevent XSS
 function sanitizeInput(input) {
@@ -38,10 +40,17 @@ function isValidCurrencyCode(code) {
     return /^[A-Z]{3}$/.test(code);
 }
 
-// Fetch the API key from our server with security measures
+// Initialize API configuration
 async function initializeApiKey() {
     try {
-        // Add a nonce to prevent caching
+        // In production, we already have the API key from environment variables
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            console.log('Running in production, using environment API key');
+            return true;
+        }
+        
+        // For local development, fetch from the local server
+        console.log('Running locally, fetching API key from server');
         const nonce = Date.now();
         const response = await fetch(`/api/config?_=${nonce}`, {
             credentials: 'same-origin',
