@@ -290,17 +290,17 @@ function convertCurrency() {
         }
         
         // Sanitize and validate currency codes
-        const fromCurrency = sanitizeInput(fromCurrency.value);
-        const toCurrency = sanitizeInput(toCurrency.value);
+        const fromCurrencyCode = sanitizeInput(fromCurrency.value);
+        const toCurrencyCode = sanitizeInput(toCurrency.value);
         
-        if (!isValidCurrencyCode(fromCurrency) || !isValidCurrencyCode(toCurrency)) {
+        if (!isValidCurrencyCode(fromCurrencyCode) || !isValidCurrencyCode(toCurrencyCode)) {
             showError('Invalid currency code');
             return;
         }
         
         // Get exchange rates with validation
-        const fromRate = exchangeRates[fromCurrency];
-        const toRate = exchangeRates[toCurrency];
+        const fromRate = exchangeRates[fromCurrencyCode];
+        const toRate = exchangeRates[toCurrencyCode];
         
         if (fromRate === undefined || toRate === undefined) {
             showError('Exchange rate data not available');
