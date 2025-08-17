@@ -136,16 +136,31 @@ async function init() {
 
 // Set up event listeners
 function setupEventListeners() {
-    // Tab switching - add click handlers to all tab buttons
-    window.tabButtons.forEach(button => {
-        button.addEventListener('click', (e) => {
-            e.preventDefault();
-            const tabId = button.getAttribute('data-tab');
-            if (tabId) {
-                switchTab(tabId, e);
-            }
+    // Tab switching - add click handlers to all tab buttons and footer tab links
+    function setupTabButtons(buttons) {
+        buttons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                const tabId = button.getAttribute('data-tab');
+                if (tabId) {
+                    switchTab(tabId, e);
+                    
+                    // Scroll to top of the converter section for better UX
+                    const converterSection = document.querySelector('.converter-card');
+                    if (converterSection) {
+                        converterSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+            });
         });
-    });
+    }
+    
+    // Set up main navigation tab buttons
+    setupTabButtons(window.tabButtons);
+    
+    // Set up footer tab links
+    const footerTabLinks = document.querySelectorAll('.footer-tab-link');
+    setupTabButtons(footerTabLinks);
     
     // Currency conversion
     [amountInput, fromCurrency, toCurrency].forEach(element => {
